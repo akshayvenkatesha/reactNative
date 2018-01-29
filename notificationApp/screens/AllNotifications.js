@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, PermissionsAndroid, Alert } from 'react-native'
+import { Text, View, StyleSheet, TouchableHighlight, TouchableOpacity, PermissionsAndroid, AppState, Alert, Image } from 'react-native'
 import Notification from "../modules/Notification"
 
 const PERMISSION = PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE;
@@ -27,6 +27,7 @@ export default class AllNotifications extends Component {
     Notification.on('notification', (data) => {
       //console.log("AppState", AppState.currentState);
       console.log("notification received", JSON.stringify(data));
+      console.log("AppState.currentState", AppState.currentState);
       if (AppState.currentState === 'active') {
         this.setState({
           sender: data.app,
@@ -80,33 +81,39 @@ export default class AllNotifications extends Component {
 
   render() {
     return (
-      <View>
+      // <View>
+      //   <TouchableHighlight onPress={() =>
+      //     this.props.navigation.navigate('NotificationConfig')}>
+      //     <View>
+      //       <Text>AllNotifications</Text>
+      //     </View>
+      //   </TouchableHighlight>
+      <View style={styles.container}>
         <TouchableHighlight onPress={() =>
           this.props.navigation.navigate('NotificationConfig')}>
           <View>
             <Text>AllNotifications</Text>
           </View>
         </TouchableHighlight>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Notification Listener!
+        <Text style={styles.welcome}>
+          Notification Listener!
         </Text>
-          <Text style={styles.instructions}>
-            Sender: {this.state.sender}
-          </Text>
-          <Text style={styles.instructions}>
-            Text: {this.state.text}
-          </Text>
-          <TouchableOpacity onPress={this.getInstalledApps}>
-            <Text style={styles.button}>Get Installed Apps</Text>
-          </TouchableOpacity>
-          <View style={styles.row}>
-            {this.state.apps.map((app, i) => (
-              <Image source={{ uri: app.icon }} style={styles.image} key={i} />
-            ))}
-          </View>
+        <Text style={styles.instructions}>
+          Sender: {this.state.sender}
+        </Text>
+        <Text style={styles.instructions}>
+          Text: {this.state.text}
+        </Text>
+        <TouchableOpacity onPress={this.getInstalledApps}>
+          <Text style={styles.button}>Get Installed Apps</Text>
+        </TouchableOpacity>
+        <View style={styles.row}>
+          {this.state.apps.map((app, i) => (
+            <Image source={{ uri: app.icon }} style={styles.image} key={i} />
+          ))}
         </View>
       </View>
+      // </View>
     );
   }
 }

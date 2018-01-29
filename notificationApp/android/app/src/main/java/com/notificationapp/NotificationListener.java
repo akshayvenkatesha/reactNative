@@ -13,12 +13,11 @@ public class NotificationListener extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification sbn) {
         Log.d(TAG, "Notification received: "+sbn.getPackageName()+":"+sbn.getNotification().tickerText);
 
-        if (sbn.getNotification().tickerText == null) {
-            return;
-        }
-
         WritableNativeMap params = new WritableNativeMap();
-        params.putString("text", sbn.getNotification().tickerText.toString());
+
+        if (sbn.getNotification().tickerText == null) {
+            params.putString("text", sbn.getNotification().tickerText.toString());
+        }
 
         String app = sbn.getPackageName();
         if (app.equals(NotificationModule.smsApp)) {
